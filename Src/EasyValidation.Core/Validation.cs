@@ -8,7 +8,7 @@ public abstract class Validation<T> : IValidation<T>
 {
     private readonly ICollection<ErrorNotification> notifications;
 
-    private T? _value;
+    private readonly T _value;
 
     public IResultData ResultData => _resultData;
 
@@ -16,17 +16,11 @@ public abstract class Validation<T> : IValidation<T>
 
     public bool HasNotifications => notifications.Any();
 
-    public Validation()
-    {
-        _resultData = new ResultData();
-        notifications = new List<ErrorNotification>();
-    }
-
-    public void Setup(T value)
+    public Validation(T value)
     {
         _value = value;
-
-        Validate();
+        _resultData = new ResultData();
+        notifications = new List<ErrorNotification>();
     }
 
     public abstract void Validate();
@@ -34,15 +28,6 @@ public abstract class Validation<T> : IValidation<T>
     public void AddNotification(string property, string message)
     {
         _resultData.AddError(key: property, message);
-    }
-
-    public void AddNotifications(IEnumerable<ErrorNotification> notifications)
-    {
-        foreach (var notification in notifications)
-        {
-            if (!this.notifications.Any(x => x.Equals(notification)))
-                this.notifications.Add(notification);
-        }
     }
 
     public void ClearNotifications()

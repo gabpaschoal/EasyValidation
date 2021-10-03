@@ -8,9 +8,7 @@ public interface IValidation<T>
     bool HasNotifications { get; }
 
     void AddNotification(string property, string message);
-    void AddNotifications(IEnumerable<ErrorNotification> notifications);
     void ClearNotifications();
-    void Setup(T value);
     void Validate();
 }
 

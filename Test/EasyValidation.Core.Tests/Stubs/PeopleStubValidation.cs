@@ -4,6 +4,9 @@ namespace EasyValidation.Core.Tests.Stubs;
 
 public class PeopleStubValidation : Validation<PeopleStubCommand>
 {
+    public PeopleStubValidation(PeopleStubCommand value) : base(value)
+    { }
+
     public override void Validate()
     {
         ForMember(x => x.FirstName).IsRequired();
