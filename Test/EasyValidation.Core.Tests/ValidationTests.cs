@@ -63,4 +63,17 @@ public class ValidationTests
         sut.ResultData.Errors.Should().BeEmpty();
         sut.HasErrors.Should().BeFalse();
     }
+
+    [Fact(DisplayName = "Should return a ruler after use ForMember")]
+    public void Should_return_a_ruler_after_use_ForMember()
+    {
+        var sut = MakeSut();
+
+        var ruler = sut.ForMember(x => x.FirstName);
+
+        ruler.Should().NotBeNull();
+
+        sut.ResultData.Errors.Should().BeEmpty();
+        sut.HasErrors.Should().BeFalse();
+    }
 }
