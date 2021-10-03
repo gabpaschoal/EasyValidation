@@ -13,6 +13,8 @@ public class ResultData : IResultData
 
     public IReadOnlyDictionary<string, IList<string>> Errors => new ReadOnlyDictionary<string, IList<string>>(_errors);
 
+    public bool IsValid => !_errors.Any();
+
     public void AddError(string key, string message)
     {
         if(key is null)

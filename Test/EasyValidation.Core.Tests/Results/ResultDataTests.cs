@@ -86,4 +86,16 @@ public class ResultDataTests
 
         data.Value.Count.Should().Be(2);
     }
+
+    [Fact(DisplayName = "Should not be valid when contains any error")]
+    public void Should_not_be_valid_when_contains_any_error()
+    {
+        var resultData = new ResultData();
+
+        var key = "_key";
+        var message = "This is a valid message!";
+        resultData.AddError(key, message);
+
+        resultData.IsValid.Should().BeFalse();
+    }
 }
