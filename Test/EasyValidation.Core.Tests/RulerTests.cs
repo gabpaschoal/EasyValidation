@@ -9,9 +9,9 @@ namespace EasyValidation.Core.Tests;
 public class RulerTests
 {
     private static Ruler<PeopleStubCommand, string> MakeSut(
-        IResultData resultData,
-        PeopleStubCommand peopleStub,
-        Expression<Func<PeopleStubCommand, string>> expression)
+        IResultData? resultData = null,
+        PeopleStubCommand? peopleStub = null,
+        Expression<Func<PeopleStubCommand, string>>? expression = null)
     {
         resultData ??= new ResultData();
 
@@ -27,6 +27,7 @@ public class RulerTests
     [Fact(DisplayName = "Should")]
     public void Should()
     {
+        var sut = MakeSut();
         //=>
     }
 }

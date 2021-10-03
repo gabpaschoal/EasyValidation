@@ -18,6 +18,10 @@ public class Ruler<T, TProperty> : IRuler<T, TProperty>
         Expression<Func<T, TProperty>> expression
         )
     {
+        _ = resultData ?? throw new ArgumentNullException(nameof(resultData));
+        _ = value ?? throw new ArgumentNullException(nameof(value));
+        _ = expression ?? throw new ArgumentNullException(nameof(expression));
+
         _resultData = resultData;
         _foundError = false;
         _value = value;
