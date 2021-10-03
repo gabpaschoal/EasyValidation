@@ -76,4 +76,17 @@ public class ValidationTests
         sut.ResultData.Errors.Should().BeEmpty();
         sut.HasErrors.Should().BeFalse();
     }
+    
+    [Fact(DisplayName = "Should return a ruler after use WithMessage")]
+    public void Should_return_a_ruler_after_use_WithMessage()
+    {
+        var sut = MakeSut();
+
+        var ruler = sut.ForMember(x => x.FirstName).WithMessage("");
+
+        ruler.Should().NotBeNull();
+
+        sut.ResultData.Errors.Should().BeEmpty();
+        sut.HasErrors.Should().BeFalse();
+    }
 }
