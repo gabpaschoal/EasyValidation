@@ -1,4 +1,5 @@
 ﻿using EasyValidation.Core.Results;
+using FluentAssertions;
 using System.Linq;
 using Xunit;
 
@@ -12,9 +13,26 @@ public class ResultDataTests
         var resultData = new ResultData();
 
         var key = "_key";
-
-        resultData.AddError(key, "This is a valid message!");
+        var message = "This is a valid message!";
+        resultData.AddError(key, message);
 
         var data = resultData.Errors.Single(x => x.Key == key);
+        data.Value.Single().Should().Be(message);
+    }
+
+
+    [Fact(DisplayName = "Should not add a new message when message already exists to this key")]
+    public void Should_not_add_a_new_message_when_message_already_exists_to_this_key()
+    {
+        var resultData = new ResultData();
+
+        var key = "_key";
+        var message = "This is a valid message!";
+
+        resultData.AddError(key, message);
+        resultData.AddError(key, message);
+
+        var data = resultData.Errors.Single(x => x.Key == key);
+        data.Value.Single().Should().Be(message);
     }
 }

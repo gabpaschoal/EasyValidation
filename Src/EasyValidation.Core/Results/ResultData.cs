@@ -22,6 +22,10 @@ public class ResultData : IResultData
         }
 
         var errors = _errors[key];
+
+        if (errors.Contains(message))
+            return;
+
         errors.Add(message);
     }
 }
