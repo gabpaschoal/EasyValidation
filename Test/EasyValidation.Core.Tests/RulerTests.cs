@@ -78,6 +78,27 @@ public class RulerTests
         act.Should().Throw<ArgumentNullException>();
     }
 
+    [Fact(DisplayName = "Should throws an exception when peopleStubParam is null")]
+    public void Should_throws_an_exception_when_peopleStubParam_is_null()
+    {
+        var resultData = new ResultData();
+
+        resultData = null;
+
+        var addressStub = new AddressStubCommand("St. 1", "Downtown", "NYC", 99);
+        var peopleStub = new PeopleStubCommand("Maria", "Santos", 27, addressStub, addressStub);
+        peopleStub = null;
+
+        Func<PeopleStubCommand, string> func = peopleStubCommand => peopleStubCommand.FirstName;
+        Expression<Func<PeopleStubCommand, string>> expression = peopleStubCommand => func(peopleStubCommand);
+
+#pragma warning disable CS8604 // Possible null reference argument.
+        var act = () => new Ruler<PeopleStubCommand, string>(resultData, peopleStub, expression);
+#pragma warning restore CS8604 // Possible null reference argument.
+
+        act.Should().Throw<ArgumentNullException>();
+    }
+
     [Fact(DisplayName = "Should only add error when WithMessage is called")]
     public void Should_only_add_error_when_validation_is_true_WithMessage_is_called()
     {
