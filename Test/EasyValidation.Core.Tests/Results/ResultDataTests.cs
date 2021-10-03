@@ -51,4 +51,20 @@ public class ResultDataTests
 
         act.Should().Throw<ArgumentNullException>();
     }
+
+    [Fact(DisplayName = "Should throws an exception when message param is null")]
+    public void Should_throws_an_exception_when_message_param_is_null()
+    {
+        var resultData = new ResultData();
+
+        var key = "_key";
+
+        string? message = null;
+
+#pragma warning disable CS8604 // Possible null reference argument.
+        Action act = () => resultData.AddError(key, message);
+#pragma warning restore CS8604 // Possible null reference argument.
+
+        act.Should().Throw<ArgumentNullException>();
+    }
 }
