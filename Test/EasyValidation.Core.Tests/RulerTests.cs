@@ -103,7 +103,7 @@ public class RulerTests
         var peopleStub = new PeopleStubCommand("Maria", "Santos", 27, addressStub, addressStub);
 
         Func<PeopleStubCommand, string> func = peopleStubCommand => peopleStubCommand.FirstName;
-        Expression<Func<PeopleStubCommand, string>> expression = peopleStubCommand => func(peopleStubCommand);
+        Expression<Func<PeopleStubCommand, string>>? expression = peopleStubCommand => func(peopleStubCommand);
         expression = null;
 
 #pragma warning disable CS8604 // Possible null reference argument.
