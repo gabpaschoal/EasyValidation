@@ -22,7 +22,7 @@ public abstract class Validation<T> : IValidation<T>
 
     public abstract void Validate();
 
-    public void AddNotification(string property, string message)
+    public void AddError(string property, string message)
     {
         _resultData.AddError(key: property, message);
     }
@@ -62,4 +62,3 @@ public abstract class Validation<T> : IValidation<T>
         //    AddNotifications(partialCommandValidator.Notifications);
     }
 }
-

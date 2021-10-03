@@ -7,7 +7,7 @@ public interface IValidation<T>
     IResultData ResultData { get; }
     bool HasNotifications { get; }
 
-    void AddNotification(string property, string message);
+    void AddError(string property, string message);
     void Validate();
 }
 
