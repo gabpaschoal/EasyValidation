@@ -1,6 +1,5 @@
 ﻿using EasyValidation.Core.Tests.Stubs;
 using FluentAssertions;
-using Moq;
 using System.Linq;
 using Xunit;
 
@@ -30,6 +29,21 @@ public class ValidationTests
         var peopleStubCommand = new PeopleStubCommand(firstName, lastName, age, address1, address2);
 
         return new(peopleStubCommand);
+    }
+
+    [Fact(DisplayName = "Should ResultData be valid after create")]
+    public void Should_ResultData_be_valid_after_create()
+    {
+        var peopleStubCommand = new PeopleStubCommand(
+            FirstName: "Joseph", 
+            LastName: "Joestar", 
+            Age: 0, 
+            Address1: MakeAddress(), 
+            Address2: MakeAddress());
+
+        var sut = new PeopleStubValidation(peopleStubCommand);
+
+        sut.ResultData.Should().NotBeNull();
     }
 
     [Fact(DisplayName = "Should add an error in result data when use AddError")]
@@ -76,7 +90,7 @@ public class ValidationTests
         sut.ResultData.Errors.Should().BeEmpty();
         sut.HasErrors.Should().BeFalse();
     }
-    
+
     [Fact(DisplayName = "Should return a ruler after use WithMessage")]
     public void Should_return_a_ruler_after_use_WithMessage()
     {
