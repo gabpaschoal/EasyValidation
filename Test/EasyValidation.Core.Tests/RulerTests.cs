@@ -77,4 +77,28 @@ public class RulerTests
 
         resultData.Errors.Single().Value.Single().Should().Be(message);
     }
+
+    [Fact(DisplayName = "Should only one add error when validation has more than one error and WithMessage is called")]
+    public void Should_only_one_add_error_when_validation_has_more_than_one_error_and_WithMessage_is_called()
+    {
+        var firstName = "Jeremy";
+        var message = "This is a message to validate";
+
+        var resultData = new ResultData();
+
+        var peopleStub = MakePeopleStub(FirstName: firstName);
+
+        var sut = MakeSut(resultData, peopleStub, x => x.FirstName);
+
+        var ruler = sut
+                        .When(x => x.Length > 1)
+                        .When(x => x.Length > 2)
+                        .When(x => x.Length > 2);
+
+        resultData.Errors.Should().BeEmpty();
+
+        ruler.WithMessage(message: message);
+
+        resultData.Errors.Single().Value.Single().Should().Be(message);
+    }
 }
