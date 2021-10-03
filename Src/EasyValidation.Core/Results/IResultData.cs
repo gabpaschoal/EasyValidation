@@ -7,4 +7,6 @@ public interface IResultData
     bool IsValid { get; }
 
     void AddError(string key, string message);
+
+    string GetAsJson();
 }

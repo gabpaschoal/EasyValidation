@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Text.Json;
 
 namespace EasyValidation.Core.Results;
 
@@ -35,5 +36,10 @@ public class ResultData : IResultData
             return;
 
         errors.Add(message);
+    }
+
+    public string GetAsJson()
+    {
+        return JsonSerializer.Serialize(this);
     }
 }
