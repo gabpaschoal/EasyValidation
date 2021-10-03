@@ -8,7 +8,6 @@ public interface IValidation<T>
     bool HasNotifications { get; }
 
     void AddNotification(string property, string message);
-    void ClearNotifications();
     void Validate();
 }
 

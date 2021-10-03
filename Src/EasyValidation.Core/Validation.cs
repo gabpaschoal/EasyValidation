@@ -6,21 +6,18 @@ namespace EasyValidation.Core;
 public abstract class Validation<T> : IValidation<T>
         where T : class
 {
-    private readonly ICollection<ErrorNotification> notifications;
-
     private readonly T _value;
 
     public IResultData ResultData => _resultData;
 
     private readonly IResultData _resultData;
 
-    public bool HasNotifications => notifications.Any();
+    public bool HasNotifications => _resultData.Errors.Any();
 
     public Validation(T value)
     {
         _value = value;
         _resultData = new ResultData();
-        notifications = new List<ErrorNotification>();
     }
 
     public abstract void Validate();
@@ -28,11 +25,6 @@ public abstract class Validation<T> : IValidation<T>
     public void AddNotification(string property, string message)
     {
         _resultData.AddError(key: property, message);
-    }
-
-    public void ClearNotifications()
-    {
-        notifications.Clear();
     }
 
     public IRuler<T, TProperty> ForMember<TProperty>(Expression<Func<T, TProperty>> expression)
