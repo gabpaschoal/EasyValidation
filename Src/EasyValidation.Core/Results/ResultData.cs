@@ -15,6 +15,12 @@ public class ResultData : IResultData
 
     public void AddError(string key, string message)
     {
+        if(key is null)
+            throw new ArgumentNullException(nameof(key));
+
+        if(message is null)
+            throw new ArgumentNullException(nameof(message));
+
         if (!_errors.ContainsKey(key))
         {
             _errors.Add(key, new[] { message });
