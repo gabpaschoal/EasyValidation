@@ -1,5 +1,6 @@
 ﻿using EasyValidation.Core.Tests.Stubs;
 using FluentAssertions;
+using System;
 using System.Linq;
 using Xunit;
 
@@ -35,15 +36,25 @@ public class ValidationTests
     public void Should_ResultData_be_valid_after_create()
     {
         var peopleStubCommand = new PeopleStubCommand(
-            FirstName: "Joseph", 
-            LastName: "Joestar", 
-            Age: 0, 
-            Address1: MakeAddress(), 
+            FirstName: "Joseph",
+            LastName: "Joestar",
+            Age: 0,
+            Address1: MakeAddress(),
             Address2: MakeAddress());
 
         var sut = new PeopleStubValidation(peopleStubCommand);
 
         sut.ResultData.Should().NotBeNull();
+    }
+
+    [Fact(DisplayName = "Should throws an exception if parameter is null")]
+    public void Should_throws_an_exception_if_parameter_is_null()
+    {
+#pragma warning disable CA1806 // Do not ignore method results
+        Action act = () => new PeopleStubValidation(null);
+#pragma warning restore CA1806 // Do not ignore method results
+
+        act.Should().Throw<ArgumentNullException>();
     }
 
     [Fact(DisplayName = "Should add an error in result data when use AddError")]

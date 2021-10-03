@@ -16,7 +16,7 @@ public abstract class Validation<T> : IValidation<T>
 
     public Validation(T value)
     {
-        _value = value;
+        _value = value ?? throw new ArgumentNullException(nameof(value));
         _resultData = new ResultData();
     }
 
