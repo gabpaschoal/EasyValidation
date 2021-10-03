@@ -1,14 +1,16 @@
-﻿namespace EasyValidation.Core;
+﻿using EasyValidation.Core.Results;
+
+namespace EasyValidation.Core;
 
 public interface IValidation<T>
 {
-    IReadOnlyCollection<ErrorNotification> Notifications { get; }
+    IResultData ResultData { get; }
     bool HasNotifications { get; }
 
     void AddNotification(string property, string message);
     void AddNotifications(IEnumerable<ErrorNotification> notifications);
     void ClearNotifications();
-    void Setup(T value, string firstPartName = "");
+    void Setup(T value);
     void Validate();
 }
 

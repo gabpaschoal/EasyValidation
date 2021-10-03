@@ -1,31 +1,27 @@
-﻿using System.Linq.Expressions;
+﻿using EasyValidation.Core.Results;
+using System.Linq.Expressions;
 
 namespace EasyValidation.Core;
 
 public class Ruler<T, TProperty> : IRuler<T, TProperty>
 {
-    private readonly IValidation<T> _validation;
-    private readonly string _firstPartName;
+    private readonly IResultData _resultData;
     private readonly string _propName;
     private readonly T _value;
     private readonly TProperty _valueProperty;
     private bool _foundError;
     private bool _addedMessage;
 
-    private string FullPropName => string.IsNullOrWhiteSpace(_firstPartName) ? _propName : $"{_firstPartName}.{_propName}";
-
     public Ruler(
-        IValidation<T> validation,
+        IResultData resultData,
         T value,
-        Expression<Func<T, TProperty>> expression,
-        string firstPartName = ""
+        Expression<Func<T, TProperty>> expression
         )
     {
-        _validation = validation;
+        _resultData = resultData;
         _foundError = false;
         _value = value;
         _addedMessage = false;
-        _firstPartName = firstPartName;
 
         var memberExpression = (MemberExpression)expression.Body;
         _propName = memberExpression.Member.Name;
@@ -50,7 +46,7 @@ public class Ruler<T, TProperty> : IRuler<T, TProperty>
         if (_foundError && !_addedMessage)
         {
             _addedMessage = true;
-            _validation.AddNotification(FullPropName, message);
+            _resultData.AddError(_propName, message);
         }
 
         return this;

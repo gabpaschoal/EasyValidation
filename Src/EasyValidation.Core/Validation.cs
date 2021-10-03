@@ -1,4 +1,5 @@
-﻿using System.Linq.Expressions;
+﻿using EasyValidation.Core.Results;
+using System.Linq.Expressions;
 
 namespace EasyValidation.Core;
 
@@ -7,24 +8,23 @@ public abstract class Validation<T> : IValidation<T>
 {
     private readonly ICollection<ErrorNotification> notifications;
 
-    private string? _firstPartName;
-
     private T? _value;
 
-    public IReadOnlyCollection<ErrorNotification> Notifications { get => notifications.ToList().AsReadOnly(); }
+    public IResultData ResultData => _resultData;
+
+    private readonly IResultData _resultData;
 
     public bool HasNotifications => notifications.Any();
 
     public Validation()
     {
+        _resultData = new ResultData();
         notifications = new List<ErrorNotification>();
     }
 
-    public void Setup(T value, string firstPartName = "")
+    public void Setup(T value)
     {
         _value = value;
-
-        _firstPartName = firstPartName;
 
         Validate();
     }
@@ -33,10 +33,7 @@ public abstract class Validation<T> : IValidation<T>
 
     public void AddNotification(string property, string message)
     {
-        var notification = new ErrorNotification(property, message);
-
-        if (!notifications.Any(x => x.Equals(notification)))
-            notifications.Add(notification);
+        _resultData.AddError(key: property, message);
     }
 
     public void AddNotifications(IEnumerable<ErrorNotification> notifications)
@@ -55,7 +52,7 @@ public abstract class Validation<T> : IValidation<T>
 
     public IRuler<T, TProperty> ForMember<TProperty>(Expression<Func<T, TProperty>> expression)
     {
-        var ruler = new Ruler<T, TProperty>(this, _value, expression);
+        var ruler = new Ruler<T, TProperty>(_resultData, _value, expression);
 
         return ruler;
     }
@@ -63,29 +60,29 @@ public abstract class Validation<T> : IValidation<T>
     public void AssignMember<TPartialCommandValidator, TProperty>(Expression<Func<T, TProperty>> expression, bool isRequired = true)
         where TPartialCommandValidator : IValidation<TProperty>, new()
     {
-        var memberExpression = (MemberExpression)expression.Body;
-        var propName = memberExpression.Member.Name;
+        //var memberExpression = (MemberExpression)expression.Body;
+        //var propName = memberExpression.Member.Name;
 
-        var concatedPropName = string.IsNullOrWhiteSpace(_firstPartName)
-                                        ? propName
-                                        : $"{_firstPartName}.{propName}";
+        //var concatedPropName = string.IsNullOrWhiteSpace(_firstPartName)
+        //                                ? propName
+        //                                : $"{_firstPartName}.{propName}";
 
-        var builtExpression = expression.Compile();
-        var valueProperty = builtExpression.Invoke(_value);
+        //var builtExpression = expression.Compile();
+        //var valueProperty = builtExpression.Invoke(_value);
 
-        if (valueProperty is null)
-        {
-            if (isRequired)
-                AddNotification(concatedPropName, "");
+        //if (valueProperty is null)
+        //{
+        //    if (isRequired)
+        //        AddNotification(concatedPropName, "");
 
-            return;
-        }
+        //    return;
+        //}
 
-        var partialCommandValidator = new TPartialCommandValidator();
-        partialCommandValidator.Setup(valueProperty, concatedPropName);
+        //var partialCommandValidator = new TPartialCommandValidator();
+        //partialCommandValidator.Setup(valueProperty, concatedPropName);
 
-        if (partialCommandValidator.HasNotifications)
-            AddNotifications(partialCommandValidator.Notifications);
+        //if (partialCommandValidator.HasNotifications)
+        //    AddNotifications(partialCommandValidator.Notifications);
     }
 }
 
