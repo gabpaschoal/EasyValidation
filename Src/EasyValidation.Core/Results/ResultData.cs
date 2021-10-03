@@ -23,7 +23,7 @@ public class ResultData : IResultData
 
         if (!_errors.ContainsKey(key))
         {
-            _errors.Add(key, new[] { message });
+            _errors.Add(key, new List<string> { message });
             return;
         }
 

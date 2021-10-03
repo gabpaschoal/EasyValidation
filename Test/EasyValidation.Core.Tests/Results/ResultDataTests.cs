@@ -67,4 +67,23 @@ public class ResultDataTests
 
         act.Should().Throw<ArgumentNullException>();
     }
+
+    [Fact(DisplayName = "Should add a new message when key exists and the messages are different")]
+    public void Should_add_a_new_message_when_key_exists_and_the_messages_are_different()
+    {
+        var resultData = new ResultData();
+
+        var key = "_key";
+        var message1 = "This is a valid message1!";
+        var message2 = "This is a valid message2!";
+        resultData.AddError(key, message1);
+        resultData.AddError(key, message2);
+
+        var data = resultData.Errors.Single(x => x.Key == key);
+
+        data.Value[0].Should().Be(message1);
+        data.Value[1].Should().Be(message2);
+
+        data.Value.Count.Should().Be(2);
+    }
 }
