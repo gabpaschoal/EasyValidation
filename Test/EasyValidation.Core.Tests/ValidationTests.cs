@@ -54,4 +54,13 @@ public class ValidationTests
         sut.ResultData.Errors.Single().Key.Should().Be(key);
         sut.HasErrors.Should().BeTrue();
     }
+
+    [Fact(DisplayName = "Should HasErrors be false when resultData has no errors")]
+    public void Should_HasErrors_be_false_when_resultData_has_no_errors()
+    {
+        var sut = MakeSut();
+
+        sut.ResultData.Errors.Should().BeEmpty();
+        sut.HasErrors.Should().BeFalse();
+    }
 }
