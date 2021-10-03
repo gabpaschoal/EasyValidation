@@ -98,4 +98,12 @@ public class ResultDataTests
 
         resultData.IsValid.Should().BeFalse();
     }
+
+    [Fact(DisplayName = "Should be valid when dont contains any error")]
+    public void Should_be_valid_when_dont_contains_any_error()
+    {
+        var resultData = new ResultData();
+        resultData.Errors.Should().BeEmpty();
+        resultData.IsValid.Should().BeTrue();
+    }
 }
