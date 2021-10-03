@@ -34,7 +34,7 @@ public class Ruler<T, TProperty> : IRuler<T, TProperty>
         _valueProperty = builtExpression.Invoke(_value);
     }
 
-    public IRuler<T, TProperty> On(Func<TProperty, bool> validation)
+    public IRuler<T, TProperty> When(Func<TProperty, bool> validation)
     {
         if (_foundError)
             return this;
