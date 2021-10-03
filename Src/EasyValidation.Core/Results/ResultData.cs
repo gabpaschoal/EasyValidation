@@ -43,3 +43,12 @@ public class ResultData : IResultData
         return JsonSerializer.Serialize(this);
     }
 }
+
+public class ResultData<TData> : ResultData
+{
+    public TData Data { get; }
+    public ResultData(TData data) : base()
+    {
+        Data = data;
+    }
+}
