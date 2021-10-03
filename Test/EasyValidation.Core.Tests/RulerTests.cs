@@ -57,7 +57,6 @@ public class RulerTests
         return new Ruler<PeopleStubCommand, string>(resultData, peopleStub, expression);
     }
 
-
     [Fact(DisplayName = "Should throws an exception when resultDataParam is null")]
     public void Should_throws_an_exception_when_resultDataParam_is_null()
     {
@@ -82,15 +81,30 @@ public class RulerTests
     public void Should_throws_an_exception_when_peopleStubParam_is_null()
     {
         var resultData = new ResultData();
-
-        resultData = null;
-
         var addressStub = new AddressStubCommand("St. 1", "Downtown", "NYC", 99);
         var peopleStub = new PeopleStubCommand("Maria", "Santos", 27, addressStub, addressStub);
         peopleStub = null;
 
         Func<PeopleStubCommand, string> func = peopleStubCommand => peopleStubCommand.FirstName;
         Expression<Func<PeopleStubCommand, string>> expression = peopleStubCommand => func(peopleStubCommand);
+
+#pragma warning disable CS8604 // Possible null reference argument.
+        var act = () => new Ruler<PeopleStubCommand, string>(resultData, peopleStub, expression);
+#pragma warning restore CS8604 // Possible null reference argument.
+
+        act.Should().Throw<ArgumentNullException>();
+    }
+
+    [Fact(DisplayName = "Should throws an exception when expressionParam is null")]
+    public void Should_throws_an_exception_when_expressionParam_is_null()
+    {
+        var resultData = new ResultData();
+        var addressStub = new AddressStubCommand("St. 1", "Downtown", "NYC", 99);
+        var peopleStub = new PeopleStubCommand("Maria", "Santos", 27, addressStub, addressStub);
+
+        Func<PeopleStubCommand, string> func = peopleStubCommand => peopleStubCommand.FirstName;
+        Expression<Func<PeopleStubCommand, string>> expression = peopleStubCommand => func(peopleStubCommand);
+        expression = null;
 
 #pragma warning disable CS8604 // Possible null reference argument.
         var act = () => new Ruler<PeopleStubCommand, string>(resultData, peopleStub, expression);
