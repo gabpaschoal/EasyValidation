@@ -10,7 +10,6 @@ public class Ruler<T, TProperty> : IRuler<T, TProperty>
     private readonly T _value;
     private readonly TProperty _valueProperty;
     private bool _foundError;
-    private bool _addedMessage;
 
     public Ruler(
         IResultData resultData,
@@ -25,7 +24,6 @@ public class Ruler<T, TProperty> : IRuler<T, TProperty>
         _resultData = resultData;
         _foundError = false;
         _value = value;
-        _addedMessage = false;
 
         var memberExpression = (MemberExpression)expression.Body;
         _propName = memberExpression.Member.Name;
@@ -47,10 +45,10 @@ public class Ruler<T, TProperty> : IRuler<T, TProperty>
 
     public IRuler<T, TProperty> WithMessage(string message)
     {
-        if (_foundError && !_addedMessage)
+        if (_foundError)
         {
-            _addedMessage = true;
             _resultData.AddError(_propName, message);
+            _foundError = false;
         }
 
         return this;
