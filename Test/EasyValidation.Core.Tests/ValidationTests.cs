@@ -42,5 +42,16 @@ public class ValidationTests
 
         sut.ResultData.Errors.Single().Key.Should().Be(key);
     }
-}
 
+    [Fact(DisplayName = "Should HasErrors be true when resultData has errors")]
+    public void Should_HasErrors_be_true_when_resultData_has_errors()
+    {
+        var sut = MakeSut();
+        var key = "_key";
+
+        sut.AddError(key, "this is a message!");
+
+        sut.ResultData.Errors.Single().Key.Should().Be(key);
+        sut.HasErrors.Should().BeTrue();
+    }
+}

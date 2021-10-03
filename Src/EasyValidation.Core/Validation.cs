@@ -12,7 +12,7 @@ public abstract class Validation<T> : IValidation<T>
 
     private readonly IResultData _resultData;
 
-    public bool HasNotifications => _resultData.Errors.Any();
+    public bool HasErrors => _resultData.Errors.Any();
 
     public Validation(T value)
     {
