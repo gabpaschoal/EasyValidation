@@ -119,4 +119,19 @@ public class ValidationTests
         sut.ResultData.Errors.Should().BeEmpty();
         sut.HasErrors.Should().BeFalse();
     }
+
+    [Fact(DisplayName = "Should return a ruler after use WithMessage")]
+    public void Should_()
+    {
+        var address1 = MakeAddress();
+        var address2 = MakeAddress();
+
+        var peopleStubCommand = new PeopleStubCommand("Maria", "Cesaria", 19, address1, address2);
+        var validation = new PeopleStubValidation();
+
+        validation.SetValue(peopleStubCommand);
+
+        validation.Validate();
+        validation.ResultData.GetAsJson();
+    }
 }

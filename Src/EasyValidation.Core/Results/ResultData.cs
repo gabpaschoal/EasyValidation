@@ -15,8 +15,9 @@ public class ResultData : IResultData
     private readonly IDictionary<string, IResultData> _assigns;
 
     public IReadOnlyDictionary<string, IList<string>> Errors => new ReadOnlyDictionary<string, IList<string>>(_errors);
+    public IDictionary<string, IResultData> Assigns => new ReadOnlyDictionary<string, IResultData>(_assigns);
 
-    public bool IsValid => !_errors.Any();
+    public bool IsValid => !_errors.Any() || !_assigns.Any();
 
     public void AddError(string key, string message)
     {
@@ -47,6 +48,13 @@ public class ResultData : IResultData
 
     public void AssignMember(string key, IResultData resultData)
     {
+        if (resultData.IsValid)
+            return;
+
+        if (_assigns.ContainsKey(key))
+            return;
+
+        _assigns.Add(key, resultData);
     }
 }
 

@@ -3,6 +3,7 @@
 public interface IResultData
 {
     IReadOnlyDictionary<string, IList<string>> Errors { get; }
+    IDictionary<string, IResultData> Assigns { get; }
 
     bool IsValid { get; }
 
