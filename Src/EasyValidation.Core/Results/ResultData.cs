@@ -8,9 +8,11 @@ public class ResultData : IResultData
     public ResultData()
     {
         _errors = new Dictionary<string, IList<string>>();
+        _assigns = new Dictionary<string, IResultData>();
     }
 
     private readonly IDictionary<string, IList<string>> _errors;
+    private readonly IDictionary<string, IResultData> _assigns;
 
     public IReadOnlyDictionary<string, IList<string>> Errors => new ReadOnlyDictionary<string, IList<string>>(_errors);
 
@@ -41,6 +43,10 @@ public class ResultData : IResultData
     public string GetAsJson()
     {
         return JsonSerializer.Serialize(this);
+    }
+
+    public void AssignMember(string key, IResultData resultData)
+    {
     }
 }
 

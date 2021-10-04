@@ -28,8 +28,10 @@ public class ValidationTests
         address2 ??= MakeAddress();
 
         var peopleStubCommand = new PeopleStubCommand(firstName, lastName, age, address1, address2);
+        var validation = new PeopleStubValidation();
+        validation.SetValue(peopleStubCommand);
 
-        return new(peopleStubCommand);
+        return validation;
     }
 
     [Fact(DisplayName = "Should ResultData be valid after create")]
@@ -42,7 +44,8 @@ public class ValidationTests
             Address1: MakeAddress(),
             Address2: MakeAddress());
 
-        var sut = new PeopleStubValidation(peopleStubCommand);
+        var sut = new PeopleStubValidation();
+        sut.SetValue(peopleStubCommand);
 
         sut.ResultData.Should().NotBeNull();
     }
@@ -50,9 +53,11 @@ public class ValidationTests
     [Fact(DisplayName = "Should throws an exception if parameter is null")]
     public void Should_throws_an_exception_if_parameter_is_null()
     {
-#pragma warning disable CA1806 // Do not ignore method results
-        Action act = () => new PeopleStubValidation(null);
-#pragma warning restore CA1806 // Do not ignore method results
+        var sut = new PeopleStubValidation();
+
+#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
+        Action act = () => sut.SetValue(null);
+#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
 
         act.Should().Throw<ArgumentNullException>();
     }

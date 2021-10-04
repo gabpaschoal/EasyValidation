@@ -8,5 +8,7 @@ public interface IResultData
 
     void AddError(string key, string message);
 
+    void AssignMember(string key, IResultData resultData);
+
     string GetAsJson();
 }

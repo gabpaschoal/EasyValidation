@@ -6,7 +6,7 @@ namespace EasyValidation.Core;
 public abstract class Validation<T> : IValidation<T>
         where T : class
 {
-    private readonly T _value;
+    private T _value;
 
     public IResultData ResultData => _resultData;
 
@@ -14,10 +14,14 @@ public abstract class Validation<T> : IValidation<T>
 
     public bool HasErrors => _resultData.Errors.Any();
 
-    public Validation(T value)
+    public Validation()
+    {
+        _resultData = new ResultData();
+    }
+
+    public void SetValue(T value)
     {
         _value = value ?? throw new ArgumentNullException(nameof(value));
-        _resultData = new ResultData();
     }
 
     public abstract void Validate();
@@ -37,28 +41,25 @@ public abstract class Validation<T> : IValidation<T>
     public void AssignMember<TPartialCommandValidator, TProperty>(Expression<Func<T, TProperty>> expression, bool isRequired = true)
         where TPartialCommandValidator : IValidation<TProperty>, new()
     {
-        //var memberExpression = (MemberExpression)expression.Body;
-        //var propName = memberExpression.Member.Name;
+        var memberExpression = (MemberExpression)expression.Body;
+        var propName = memberExpression.Member.Name;
 
-        //var concatedPropName = string.IsNullOrWhiteSpace(_firstPartName)
-        //                                ? propName
-        //                                : $"{_firstPartName}.{propName}";
+        var builtExpression = expression.Compile();
+        var valueProperty = builtExpression.Invoke(_value);
 
-        //var builtExpression = expression.Compile();
-        //var valueProperty = builtExpression.Invoke(_value);
+        if (valueProperty is null)
+        {
+            if (isRequired)
+                AddError(propName, "Is Required");
 
-        //if (valueProperty is null)
-        //{
-        //    if (isRequired)
-        //        AddNotification(concatedPropName, "");
+            return;
+        }
 
-        //    return;
-        //}
+        var partialCommandValidator = new TPartialCommandValidator();
+        partialCommandValidator.SetValue(valueProperty);
+        partialCommandValidator.Validate();
 
-        //var partialCommandValidator = new TPartialCommandValidator();
-        //partialCommandValidator.Setup(valueProperty, concatedPropName);
-
-        //if (partialCommandValidator.HasNotifications)
-        //    AddNotifications(partialCommandValidator.Notifications);
+        if (partialCommandValidator.HasErrors)
+            ResultData.AssignMember(propName, partialCommandValidator.ResultData);
     }
 }

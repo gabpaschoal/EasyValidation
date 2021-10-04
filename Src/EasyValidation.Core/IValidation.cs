@@ -8,6 +8,7 @@ public interface IValidation<T>
     bool HasErrors { get; }
 
     void AddError(string property, string message);
+    void SetValue(T value);
     void Validate();
 }
 
