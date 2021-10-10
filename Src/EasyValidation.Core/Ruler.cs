@@ -3,7 +3,7 @@ using System.Linq.Expressions;
 
 namespace EasyValidation.Core;
 
-public class Ruler<T, TProperty> : IRuler<T, TProperty>
+internal class Ruler<T, TProperty> : IRuler<T, TProperty>
 {
     private readonly IResultData _resultData;
     private readonly string _propName;

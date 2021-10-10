@@ -2,7 +2,7 @@
 
 namespace EasyValidation.Core.Results;
 
-public class ResultData : IResultData
+internal class ResultData : IResultData
 {
     public ResultData()
     {
@@ -52,7 +52,7 @@ public class ResultData : IResultData
     }
 }
 
-public class ResultData<TData> : ResultData, IResultData<TData>
+internal class ResultData<TData> : ResultData, IResultData<TData>
 {
     public TData Data { get; }
     public ResultData(TData data) : base()
