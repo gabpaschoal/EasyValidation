@@ -3,7 +3,7 @@
 public interface IResultData
 {
     IReadOnlyDictionary<string, IList<string>> FieldErrors { get; }
-    IReadOnlyDictionary<string, IResultData> AssignsFieldErrors { get; }
+    IReadOnlyDictionary<string, IResultData> AssignFieldErrors { get; }
 
     bool IsValid { get; }
 

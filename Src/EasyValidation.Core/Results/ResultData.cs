@@ -14,7 +14,7 @@ public class ResultData : IResultData
     private readonly IDictionary<string, IResultData> _assigns;
 
     public IReadOnlyDictionary<string, IList<string>> FieldErrors => new ReadOnlyDictionary<string, IList<string>>(_errors);
-    public IReadOnlyDictionary<string, IResultData> AssignsFieldErrors => new ReadOnlyDictionary<string, IResultData>(_assigns);
+    public IReadOnlyDictionary<string, IResultData> AssignFieldErrors => new ReadOnlyDictionary<string, IResultData>(_assigns);
 
     public bool IsValid => !_errors.Any() && !_assigns.Any();
 
