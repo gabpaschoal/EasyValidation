@@ -12,7 +12,7 @@ public interface IResultData
     void AssignMember(string key, IResultData resultData);
 }
 
-public interface IResultData<TData> : IResultData
+public interface IResultData<TData> : IResultData where TData : new()
 {
     public TData Data { get; }
 }

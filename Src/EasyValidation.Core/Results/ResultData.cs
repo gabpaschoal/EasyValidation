@@ -52,7 +52,7 @@ internal class ResultData : IResultData
     }
 }
 
-internal class ResultData<TData> : ResultData, IResultData<TData>
+internal class ResultData<TData> : ResultData, IResultData<TData> where TData : new()
 {
     public TData Data { get; }
     public ResultData(TData data) : base()
