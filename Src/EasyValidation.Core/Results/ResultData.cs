@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using System.Text.Json;
 
 namespace EasyValidation.Core.Results;
 
@@ -15,9 +14,9 @@ public class ResultData : IResultData
     private readonly IDictionary<string, IResultData> _assigns;
 
     public IReadOnlyDictionary<string, IList<string>> Errors => new ReadOnlyDictionary<string, IList<string>>(_errors);
-    public IDictionary<string, IResultData> Assigns => new ReadOnlyDictionary<string, IResultData>(_assigns);
+    public IReadOnlyDictionary<string, IResultData> Assigns => new ReadOnlyDictionary<string, IResultData>(_assigns);
 
-    public bool IsValid => !_errors.Any() || !_assigns.Any();
+    public bool IsValid => !_errors.Any() && !_assigns.Any();
 
     public void AddError(string key, string message)
     {
@@ -39,11 +38,6 @@ public class ResultData : IResultData
             return;
 
         errors.Add(message);
-    }
-
-    public string GetAsJson()
-    {
-        return JsonSerializer.Serialize(this);
     }
 
     public void AssignMember(string key, IResultData resultData)

@@ -2,7 +2,6 @@
 using FluentAssertions;
 using System;
 using System.Linq;
-using System.Text.Json;
 using Xunit;
 
 namespace EasyValidation.Core.Tests.Results;
@@ -106,28 +105,5 @@ public class ResultDataTests
         var resultData = new ResultData();
         resultData.Errors.Should().BeEmpty();
         resultData.IsValid.Should().BeTrue();
-    }
-
-    [Fact(DisplayName = "Should return a valid json and his own data when GetAsJson is called")]
-    public void Should_return_a_valid_json_and_his_own_data_when_GetAsJson_is_called()
-    {
-        var resultData = new ResultData();
-
-        resultData.AddError("_key1", "Message1 for key1");
-        resultData.AddError("_key1", "Message2 for key1");
-        resultData.AddError("_key1", "Message3 for key1");
-
-        resultData.AddError("_key2", "Message1 for key2");
-        resultData.AddError("_key2", "Message2 for key2");
-
-        resultData.AddError("_key3", "Message1 for key3");
-
-        resultData.AddError("_key4", "Message1 for key4");
-        resultData.AddError("_key4", "Message2 for key4");
-        resultData.AddError("_key4", "Message3 for key4");
-
-        var jsonToCompare = JsonSerializer.Serialize(resultData);
-
-        resultData.GetAsJson().Should().Be(jsonToCompare);
     }
 }
