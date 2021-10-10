@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Mvc;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -6,6 +8,11 @@ builder.Services.AddControllers();
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new() { Title = "EasyValidation.WebApi.Sample", Version = "v1" });
+});
+
+builder.Services.Configure<ApiBehaviorOptions>(options =>
+{
+    options.SuppressModelStateInvalidFilter = true;
 });
 
 var app = builder.Build();
