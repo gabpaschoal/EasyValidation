@@ -1,3 +1,6 @@
+using EasyValidation.Core.Results;
+using EasyValidation.WebApi.Sample.Commands;
+using EasyValidation.WebApi.Sample.Validators;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EasyValidation.WebApi.Sample.Controllers
@@ -6,10 +9,7 @@ namespace EasyValidation.WebApi.Sample.Controllers
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
     {
-        private static readonly string[] Summaries = new[]
-        {
-        "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-    };
+        private static readonly string[] Summaries = new[] { "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching" };
 
         private readonly ILogger<WeatherForecastController> _logger;
 
@@ -28,6 +28,22 @@ namespace EasyValidation.WebApi.Sample.Controllers
                 Summary = Summaries[Random.Shared.Next(Summaries.Length)]
             })
             .ToArray();
+        }
+
+        [HttpPost]
+        public IActionResult Post([FromBody] PersonCommand command)
+        {
+            var validator = new PersonValidator();
+
+            validator.SetValue(command);
+            validator.Validate();
+
+            var jsonResult = validator.ResultData.ToJson();
+
+            if (validator.HasErrors)
+                return BadRequest(jsonResult);
+
+            return Ok(jsonResult);
         }
     }
 }
