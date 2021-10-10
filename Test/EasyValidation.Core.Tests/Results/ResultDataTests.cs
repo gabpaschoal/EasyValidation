@@ -15,9 +15,9 @@ public class ResultDataTests
 
         var key = "_key";
         var message = "This is a valid message!";
-        resultData.AddError(key, message);
+        resultData.AddFieldError(key, message);
 
-        var data = resultData.Errors.Single(x => x.Key == key);
+        var data = resultData.FieldErrors.Single(x => x.Key == key);
         data.Value.Single().Should().Be(message);
     }
 
@@ -29,10 +29,10 @@ public class ResultDataTests
         var key = "_key";
         var message = "This is a valid message!";
 
-        resultData.AddError(key, message);
-        resultData.AddError(key, message);
+        resultData.AddFieldError(key, message);
+        resultData.AddFieldError(key, message);
 
-        var data = resultData.Errors.Single(x => x.Key == key);
+        var data = resultData.FieldErrors.Single(x => x.Key == key);
         data.Value.Single().Should().Be(message);
     }
 
@@ -46,7 +46,7 @@ public class ResultDataTests
         var message = "This is a valid message!";
 
 #pragma warning disable CS8604 // Possible null reference argument.
-        Action act = () => resultData.AddError(key, message);
+        Action act = () => resultData.AddFieldError(key, message);
 #pragma warning restore CS8604 // Possible null reference argument.
 
         act.Should().Throw<ArgumentNullException>();
@@ -62,7 +62,7 @@ public class ResultDataTests
         string? message = null;
 
 #pragma warning disable CS8604 // Possible null reference argument.
-        Action act = () => resultData.AddError(key, message);
+        Action act = () => resultData.AddFieldError(key, message);
 #pragma warning restore CS8604 // Possible null reference argument.
 
         act.Should().Throw<ArgumentNullException>();
@@ -76,10 +76,10 @@ public class ResultDataTests
         var key = "_key";
         var message1 = "This is a valid message1!";
         var message2 = "This is a valid message2!";
-        resultData.AddError(key, message1);
-        resultData.AddError(key, message2);
+        resultData.AddFieldError(key, message1);
+        resultData.AddFieldError(key, message2);
 
-        var data = resultData.Errors.Single(x => x.Key == key);
+        var data = resultData.FieldErrors.Single(x => x.Key == key);
 
         data.Value[0].Should().Be(message1);
         data.Value[1].Should().Be(message2);
@@ -94,7 +94,7 @@ public class ResultDataTests
 
         var key = "_key";
         var message = "This is a valid message!";
-        resultData.AddError(key, message);
+        resultData.AddFieldError(key, message);
 
         resultData.IsValid.Should().BeFalse();
     }
@@ -103,7 +103,7 @@ public class ResultDataTests
     public void Should_be_valid_when_dont_contains_any_error()
     {
         var resultData = new ResultData();
-        resultData.Errors.Should().BeEmpty();
+        resultData.FieldErrors.Should().BeEmpty();
         resultData.IsValid.Should().BeTrue();
     }
 }

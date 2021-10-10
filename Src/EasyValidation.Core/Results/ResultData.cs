@@ -13,12 +13,12 @@ public class ResultData : IResultData
     private readonly IDictionary<string, IList<string>> _errors;
     private readonly IDictionary<string, IResultData> _assigns;
 
-    public IReadOnlyDictionary<string, IList<string>> Errors => new ReadOnlyDictionary<string, IList<string>>(_errors);
-    public IReadOnlyDictionary<string, IResultData> Assigns => new ReadOnlyDictionary<string, IResultData>(_assigns);
+    public IReadOnlyDictionary<string, IList<string>> FieldErrors => new ReadOnlyDictionary<string, IList<string>>(_errors);
+    public IReadOnlyDictionary<string, IResultData> AssignsFieldErrors => new ReadOnlyDictionary<string, IResultData>(_assigns);
 
     public bool IsValid => !_errors.Any() && !_assigns.Any();
 
-    public void AddError(string key, string message)
+    public void AddFieldError(string key, string message)
     {
         if (key is null)
             throw new ArgumentNullException(nameof(key));
@@ -52,7 +52,7 @@ public class ResultData : IResultData
     }
 }
 
-public class ResultData<TData> : ResultData
+public class ResultData<TData> : ResultData, IResultData<TData>
 {
     public TData Data { get; }
     public ResultData(TData data) : base()

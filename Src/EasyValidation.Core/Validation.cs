@@ -28,7 +28,7 @@ public abstract class Validation<T> : IValidation<T>
 
     public void AddError(string property, string message)
     {
-        _resultData.AddError(key: property, message);
+        _resultData.AddFieldError(key: property, message);
     }
 
     public IRuler<T, TProperty> ForMember<TProperty>(Expression<Func<T, TProperty>> expression)

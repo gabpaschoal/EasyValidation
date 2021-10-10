@@ -47,7 +47,7 @@ public class Ruler<T, TProperty> : IRuler<T, TProperty>
     {
         if (_foundError)
         {
-            _resultData.AddError(_propName, message);
+            _resultData.AddFieldError(_propName, message);
             _foundError = false;
         }
 

@@ -127,11 +127,11 @@ public class RulerTests
 
         var ruler = sut.When(x => x.Length > 1);
 
-        resultData.Errors.Should().BeEmpty();
+        resultData.FieldErrors.Should().BeEmpty();
 
         ruler.WithMessage(message: message);
 
-        resultData.Errors.Single().Value.Single().Should().Be(message);
+        resultData.FieldErrors.Single().Value.Single().Should().Be(message);
     }
 
     [Fact(DisplayName = "Should only one add error when validation has more than one error and WithMessage is called")]
@@ -151,10 +151,10 @@ public class RulerTests
                         .When(x => x.Length > 2)
                         .When(x => x.Length > 2);
 
-        resultData.Errors.Should().BeEmpty();
+        resultData.FieldErrors.Should().BeEmpty();
 
         ruler.WithMessage(message: message);
 
-        resultData.Errors.Single().Value.Single().Should().Be(message);
+        resultData.FieldErrors.Single().Value.Single().Should().Be(message);
     }
 }

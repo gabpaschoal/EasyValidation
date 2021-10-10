@@ -70,7 +70,7 @@ public class ValidationTests
 
         sut.AddError(key, "this is a message!");
 
-        sut.ResultData.Errors.Single().Key.Should().Be(key);
+        sut.ResultData.FieldErrors.Single().Key.Should().Be(key);
     }
 
     [Fact(DisplayName = "Should HasErrors be true when resultData has errors")]
@@ -81,7 +81,7 @@ public class ValidationTests
 
         sut.AddError(key, "this is a message!");
 
-        sut.ResultData.Errors.Single().Key.Should().Be(key);
+        sut.ResultData.FieldErrors.Single().Key.Should().Be(key);
         sut.HasErrors.Should().BeTrue();
     }
 
@@ -90,7 +90,7 @@ public class ValidationTests
     {
         var sut = MakeSut();
 
-        sut.ResultData.Errors.Should().BeEmpty();
+        sut.ResultData.FieldErrors.Should().BeEmpty();
         sut.HasErrors.Should().BeFalse();
     }
 
@@ -103,7 +103,7 @@ public class ValidationTests
 
         ruler.Should().NotBeNull();
 
-        sut.ResultData.Errors.Should().BeEmpty();
+        sut.ResultData.FieldErrors.Should().BeEmpty();
         sut.HasErrors.Should().BeFalse();
     }
 
@@ -116,7 +116,7 @@ public class ValidationTests
 
         ruler.Should().NotBeNull();
 
-        sut.ResultData.Errors.Should().BeEmpty();
+        sut.ResultData.FieldErrors.Should().BeEmpty();
         sut.HasErrors.Should().BeFalse();
     }
 }
