@@ -9,6 +9,8 @@ namespace EasyValidation.Core.Results
         {
             var expandoObject = ToExpandoObject(resultData);
 
+            CommonAplies(resultData, ref expandoObject);
+
             return JsonSerializer.Serialize(expandoObject);
         }
 
@@ -16,13 +18,15 @@ namespace EasyValidation.Core.Results
         {
             var expandoObject = ToExpandoObject(resultData);
 
+            CommonAplies(resultData, ref expandoObject);
+
             if (resultData.Data is not null)
                 expandoObject.TryAdd(nameof(resultData.Data), resultData.Data);
 
             return JsonSerializer.Serialize(expandoObject);
         }
 
-        internal static ExpandoObject ToExpandoObject(IResultData resultData)
+        private static ExpandoObject ToExpandoObject(IResultData resultData)
         {
             var expandoErrorsObject = new ExpandoObject();
 
@@ -34,7 +38,7 @@ namespace EasyValidation.Core.Results
             return expandoResultObject;
         }
 
-        internal static ExpandoObject ToExpandoObjectLooper(IResultData resultData, ref ExpandoObject expandoObject)
+        private static ExpandoObject ToExpandoObjectLooper(IResultData resultData, ref ExpandoObject expandoObject)
         {
             if (resultData.IsValid)
                 return expandoObject;
@@ -58,6 +62,11 @@ namespace EasyValidation.Core.Results
             }
 
             return expandoObject;
+        }
+
+        private static void CommonAplies(IResultData resultData, ref ExpandoObject expandoObject)
+        {
+            expandoObject.TryAdd(nameof(resultData.IsValid), resultData.IsValid);
         }
     }
 }
