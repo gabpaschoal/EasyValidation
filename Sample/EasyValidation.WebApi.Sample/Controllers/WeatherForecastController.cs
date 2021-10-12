@@ -63,5 +63,22 @@ namespace EasyValidation.WebApi.Sample.Controllers
 
             return Ok(jsonResult);
         }
+
+        [HttpPost("Post3")]
+        public IActionResult Post3(
+            [FromServices] IValidation<PersonCommand> validator,
+            [FromBody] PersonCommand command
+        )
+        {
+            validator.SetValue(command);
+            validator.Validate();
+
+            var jsonResult = validator.ResultData.ToJson();
+
+            if (validator.HasErrors)
+                return BadRequest(jsonResult);
+
+            return Ok(jsonResult);
+        }
     }
 }
