@@ -10,15 +10,20 @@ namespace EasyValidation.DependencyInjection
         {
             assemblies.SelectMany(x => x.GetTypes())
                 .Where(t => TypeFilter(t))
-                .Select(t => Activator.CreateInstance(t))
                 .ToList()
-                .ForEach(x =>
+                .ForEach(currentType =>
                 {
-                    if (x is null)
+                    var validatorType = currentType.GetInterfaces()
+                                        .SingleOrDefault(gi => gi.IsGenericType 
+                                                            && gi.GetGenericTypeDefinition() == typeof(IValidation<>));
+
+                    if (validatorType is null)
                         return;
 
-                    service.AddTransient(x.GetType());
+                    service.AddSingleton(validatorType, currentType);
                 });
+
+            service.AddSingleton<IValidatorLocator, ValidatorLocator>();
 
             return service;
         }
