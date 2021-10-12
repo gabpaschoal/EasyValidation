@@ -4,6 +4,10 @@ using EasyValidation.DependencyInjection;
 using EasyValidation.WebApi.Sample.Commands;
 using EasyValidation.WebApi.Sample.Validators;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace EasyValidation.WebApi.Sample.Controllers
 {

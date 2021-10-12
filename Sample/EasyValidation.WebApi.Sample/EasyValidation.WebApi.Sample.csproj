@@ -11,8 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\EasyValidation.DependencyInjection\EasyValidation.DependencyInjection.csproj" />
     <ProjectReference Include="..\..\Src\EasyValidation.Core\EasyValidation.Core.csproj" />
+    <ProjectReference Include="..\..\Src\EasyValidation.DependencyInjection\EasyValidation.DependencyInjection.csproj" />
   </ItemGroup>
 
 </Project>
