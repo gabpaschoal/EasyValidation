@@ -1,4 +1,6 @@
+using EasyValidation.Core;
 using EasyValidation.Core.Results;
+using EasyValidation.DependencyInjection;
 using EasyValidation.WebApi.Sample.Commands;
 using EasyValidation.WebApi.Sample.Validators;
 using Microsoft.AspNetCore.Mvc;
@@ -41,6 +43,22 @@ namespace EasyValidation.WebApi.Sample.Controllers
             var jsonResult = validator.ResultData.ToJson();
 
             if (validator.HasErrors)
+                return BadRequest(jsonResult);
+
+            return Ok(jsonResult);
+        }
+
+        [HttpPost("Post2")]
+        public IActionResult Post2(
+            [FromServices] IValidatorLocator validator,
+            [FromBody] PersonCommand command
+        )
+        {
+            var resultData = validator.ValidateCommand(command);
+
+            var jsonResult = resultData.ToJson();
+
+            if (!resultData.IsValid)
                 return BadRequest(jsonResult);
 
             return Ok(jsonResult);
