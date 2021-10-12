@@ -14,7 +14,7 @@ namespace EasyValidation.Core.Results
             return JsonSerializer.Serialize(expandoObject);
         }
 
-        public static string ToJson<TData>(this IResultData<TData> resultData)
+        public static string ToJson<TData>(this IResultData<TData> resultData) where TData : new()
         {
             var expandoObject = ToExpandoObject(resultData);
 

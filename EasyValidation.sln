@@ -3,13 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31717.71
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyValidation.Core", "Src\EasyValidation.Core\EasyValidation.Core.csproj", "{F068023F-E10B-4893-A03E-FBFBD67F08BA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyValidation.Core", "Src\EasyValidation.Core\EasyValidation.Core.csproj", "{F068023F-E10B-4893-A03E-FBFBD67F08BA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Src", "Src", "{DC296CAD-1033-46AF-B017-A5DF3477605B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{7074DAF3-AF59-4BF7-822C-D19411560577}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyValidation.Core.Tests", "Test\EasyValidation.Core.Tests\EasyValidation.Core.Tests.csproj", "{60B94DA6-F475-4BBB-B8EE-F6247E9A7A7F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyValidation.Core.Tests", "Test\EasyValidation.Core.Tests\EasyValidation.Core.Tests.csproj", "{60B94DA6-F475-4BBB-B8EE-F6247E9A7A7F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sample", "Sample", "{C5060914-E388-4D84-946F-22E17F07F602}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyValidation.WebApi.Sample", "Sample\EasyValidation.WebApi.Sample\EasyValidation.WebApi.Sample.csproj", "{4CB56FA4-8824-4263-A690-E89F61CF4B8C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyValidation.DependencyInjection", "Src\EasyValidation.DependencyInjection\EasyValidation.DependencyInjection.csproj", "{D835E099-952D-4993-AAAC-DDA3CC65792E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,6 +31,14 @@ Global
 		{60B94DA6-F475-4BBB-B8EE-F6247E9A7A7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{60B94DA6-F475-4BBB-B8EE-F6247E9A7A7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{60B94DA6-F475-4BBB-B8EE-F6247E9A7A7F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4CB56FA4-8824-4263-A690-E89F61CF4B8C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4CB56FA4-8824-4263-A690-E89F61CF4B8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4CB56FA4-8824-4263-A690-E89F61CF4B8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4CB56FA4-8824-4263-A690-E89F61CF4B8C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D835E099-952D-4993-AAAC-DDA3CC65792E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D835E099-952D-4993-AAAC-DDA3CC65792E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D835E099-952D-4993-AAAC-DDA3CC65792E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D835E099-952D-4993-AAAC-DDA3CC65792E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -32,6 +46,8 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{F068023F-E10B-4893-A03E-FBFBD67F08BA} = {DC296CAD-1033-46AF-B017-A5DF3477605B}
 		{60B94DA6-F475-4BBB-B8EE-F6247E9A7A7F} = {7074DAF3-AF59-4BF7-822C-D19411560577}
+		{4CB56FA4-8824-4263-A690-E89F61CF4B8C} = {C5060914-E388-4D84-946F-22E17F07F602}
+		{D835E099-952D-4993-AAAC-DDA3CC65792E} = {DC296CAD-1033-46AF-B017-A5DF3477605B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4323AEC4-7A88-43CD-A909-06BF8D8BA8FF}

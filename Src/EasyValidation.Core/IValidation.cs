@@ -2,7 +2,7 @@
 
 namespace EasyValidation.Core;
 
-public interface IValidation<T>
+public interface IValidation<T> : IDisposable
 {
     IResultData ResultData { get; }
     bool HasErrors { get; }
