@@ -50,6 +50,12 @@ internal class ResultData : IResultData
 
         _assigns.Add(key, resultData);
     }
+
+    public void Dispose()
+    {
+        _errors.Clear();
+        _assigns.Clear();
+    }
 }
 
 internal class ResultData<TData> : ResultData, IResultData<TData> where TData : new()

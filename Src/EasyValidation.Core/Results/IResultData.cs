@@ -1,6 +1,6 @@
 ﻿namespace EasyValidation.Core.Results;
 
-public interface IResultData
+public interface IResultData : IDisposable
 {
     IReadOnlyDictionary<string, IList<string>> FieldErrors { get; }
     IReadOnlyDictionary<string, IResultData> AssignFieldErrors { get; }

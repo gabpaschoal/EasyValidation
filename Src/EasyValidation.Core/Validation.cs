@@ -6,7 +6,7 @@ namespace EasyValidation.Core;
 public abstract class Validation<T> : IValidation<T>
         where T : class
 {
-    private T _value;
+    private T? _value;
 
     public IResultData ResultData => _resultData;
 
@@ -61,5 +61,10 @@ public abstract class Validation<T> : IValidation<T>
 
         if (partialCommandValidator.HasErrors)
             ResultData.AssignMember(propName, partialCommandValidator.ResultData);
+    }
+
+    public void Dispose()
+    {
+        _resultData.Dispose();
     }
 }
