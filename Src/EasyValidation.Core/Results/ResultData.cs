@@ -2,7 +2,7 @@
 
 namespace EasyValidation.Core.Results;
 
-internal class ResultData : IResultData
+public class ResultData : IResultData
 {
     public ResultData()
     {
@@ -53,12 +53,30 @@ internal class ResultData : IResultData
 
     public void Dispose()
     {
+        ClearErrors();
+        GC.SuppressFinalize(this);
+    }
+
+    public void ClearErrors()
+    {
         _errors.Clear();
         _assigns.Clear();
     }
+
+    public void IncoporateErrors(
+        IDictionary<string, IList<string>> errors,
+        IDictionary<string, IResultData> assignFieldErrors
+        )
+    {
+        ClearErrors();
+        foreach (var error in errors)
+            _errors.Add(error);
+        foreach (var error in assignFieldErrors)
+            _assigns.Add(error);
+    }
 }
 
-internal class ResultData<TData> : ResultData, IResultData<TData> where TData : new()
+public class ResultData<TData> : ResultData, IResultData<TData> where TData : new()
 {
     public TData Data { get; }
     public ResultData(TData data) : base()
