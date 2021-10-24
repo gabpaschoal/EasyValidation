@@ -10,6 +10,13 @@ public interface IResultData : IDisposable
     void AddFieldError(string key, string message);
 
     void AssignMember(string key, IResultData resultData);
+
+    /// <summary>
+    /// Overlap Errors
+    /// </summary>
+    /// <param name="resultData"></param>
+    void IncoporateErrors(IDictionary<string, IList<string>> errors, IDictionary<string, IResultData> assignFieldErrors);
+    void ClearErrors();
 }
 
 public interface IResultData<TData> : IResultData where TData : new()
