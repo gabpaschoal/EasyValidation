@@ -8,20 +8,22 @@ namespace EasyValidation.Core.Tests.Extensions;
 
 public class StringExtensionsTests
 {
-    private record StringCommandStub(string MinLenght);
+    private record StringCommandStub(string MinLenght, string MaxLenght);
 
     private class StringValidatorStub : Validation<StringCommandStub>
     {
         public override void Validate()
         {
             ForMember(x => x.MinLenght).HasMinLenght(10);
+            ForMember(x => x.MaxLenght).HasMaxLenght(10);
         }
     }
 
     private static StringCommandStub MakeValidModel()
     {
         return new(
-            MinLenght: "ValidMinLenght"
+            MinLenght: "ValidMinLenght",
+            MaxLenght: "ValidMax"
         );
     }
 
@@ -41,5 +43,14 @@ public class StringExtensionsTests
         var resultData = MakeAndValidateSut(model);
 
         resultData.FieldErrors.Single().Key.Should().BeEquivalentTo(nameof(model.MinLenght));
+    }
+
+    [Fact(DisplayName = "Should add an error when MaxLenght is greater than required")]
+    public void Should_add_an_error_when_MaxLenght_is_greater_than_required()
+    {
+        var model = MakeValidModel() with { MaxLenght = "InvalidInvalid" };
+        var resultData = MakeAndValidateSut(model);
+
+        resultData.FieldErrors.Single().Key.Should().BeEquivalentTo(nameof(model.MaxLenght));
     }
 }
