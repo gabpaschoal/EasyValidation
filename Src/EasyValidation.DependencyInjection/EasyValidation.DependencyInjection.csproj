@@ -4,8 +4,11 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <Version>1.0.0.1</Version>
+    <Version>1.0.0.2</Version>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageProjectUrl>https://github.com/gabpaschoal/EasyValidation/tree/main/Src/EasyValidation.DependencyInjection</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/gabpaschoal/EasyValidation/tree/main/Src/EasyValidation.DependencyInjection</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
@@ -14,6 +17,13 @@
 
   <ItemGroup>
     <ProjectReference Include="..\EasyValidation.Core\EasyValidation.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
