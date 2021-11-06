@@ -51,5 +51,6 @@ public IActionResult Post(
 ```
 
 ### Author
-Made by Guilherme Paschoal 
-[![Linkedin Badge](https://img.shields.io/badge/-Guilherme-blue?style=flat-square&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/guilherme-paschoal/)](www.linkedin.com/in/guilherme-paschoal/) 
+Made by Guilherme Paschoal (www.linkedin.com/in/guilherme-paschoal/)
+
+GitHub Repository: https://github.com/gabpaschoal/EasyValidation

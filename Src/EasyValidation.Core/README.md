@@ -75,7 +75,7 @@ public IActionResult Post([FromBody] PersonCommand command)
   }
 }
 ```
-## Produces this JSON Result
+### Produces this JSON Result
 ``` json
 {
   "Errors": {
@@ -97,6 +97,33 @@ public IActionResult Post([FromBody] PersonCommand command)
 }
 ```
 
+### Custom Validator - Generic
+To create a generic method to reuse in many Validators, you can create a static class and method that extends IRuler<T, R> and you'll use the generics like in the samples below.
+```cs
+public static class CommonExtensions
+{
+    public static IRuler<T, R> IsRequired<T, R>(this IRuler<T, R> ruler, string message = "Is required")
+            => ruler.When(x => x is null).WithMessage(message);
+}
+```
+
+### Custom Validator - Typed
+To create a typed method to reuse in many Validators, you can create a static class that extends IRuler<T, R>, but, to type your model property, is required to specify the second generic in the IRuler<,> like in the samples below.
+```cs
+public static class StringExtensions
+{
+    public static IRuler<T, string> HasMinLenght<T>(this IRuler<T, string> ruler, int minLenght, string message = "Should have more than {0} digits")
+            => ruler.When(x => x.Length < minLenght).WithMessage(string.Format(message, minLenght));
+}
+public static class GuidExtensions
+{
+    public static IRuler<T, Guid> IsNotEmpty<T>(this IRuler<T, Guid> ruler, string message = "Should not be empty")
+        => ruler.When(x => x == Guid.Empty).WithMessage(message);
+}
+```
+
+
 ### Author
-Made by Guilherme Paschoal 
-[![Linkedin Badge](https://img.shields.io/badge/-Guilherme-blue?style=flat-square&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/guilherme-paschoal/)](www.linkedin.com/in/guilherme-paschoal/) 
+Made by Guilherme Paschoal (www.linkedin.com/in/guilherme-paschoal/)
+
+GitHub Repository: https://github.com/gabpaschoal/EasyValidation

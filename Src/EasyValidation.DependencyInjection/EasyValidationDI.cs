@@ -2,35 +2,34 @@
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
-namespace EasyValidation.DependencyInjection
+namespace EasyValidation.DependencyInjection;
+
+public static class EasyValidationDI
 {
-    public static class EasyValidationDI
+    public static IServiceCollection AddEasyValidationValidators(this IServiceCollection service, params Assembly[] assemblies)
     {
-        public static IServiceCollection AddEasyValidationValidators(this IServiceCollection service, params Assembly[] assemblies)
-        {
-            assemblies.SelectMany(x => x.GetTypes())
-                .Where(t => TypeFilter(t))
-                .ToList()
-                .ForEach(currentType =>
-                {
-                    var validatorType = currentType.GetInterfaces()
-                                        .SingleOrDefault(gi => gi.IsGenericType 
-                                                            && gi.GetGenericTypeDefinition() == typeof(IValidation<>));
+        assemblies.SelectMany(x => x.GetTypes())
+            .Where(t => TypeFilter(t))
+            .ToList()
+            .ForEach(currentType =>
+            {
+                var validatorType = currentType.GetInterfaces()
+                                    .SingleOrDefault(gi => gi.IsGenericType
+                                                        && gi.GetGenericTypeDefinition() == typeof(IValidation<>));
 
-                    if (validatorType is null)
-                        return;
+                if (validatorType is null)
+                    return;
 
-                    service.AddSingleton(validatorType, currentType);
-                });
+                service.AddTransient(validatorType, currentType);
+            });
 
-            service.AddSingleton<IValidatorLocator, ValidatorLocator>();
+        service.AddSingleton<IValidatorLocator, ValidatorLocator>();
 
-            return service;
-        }
+        return service;
+    }
 
-        private static bool TypeFilter(Type t)
-        {
-            return t.GetInterfaces().Any(gi => gi.IsGenericType && gi.GetGenericTypeDefinition() == typeof(IValidation<>));
-        }
+    private static bool TypeFilter(Type t)
+    {
+        return t.GetInterfaces().Any(gi => gi.IsGenericType && gi.GetGenericTypeDefinition() == typeof(IValidation<>));
     }
 }
