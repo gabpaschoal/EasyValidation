@@ -9,6 +9,7 @@ namespace EasyValidation.Core.Tests.Extensions;
 public class StringExtensionsTests
 {
     private record StringCommandStub(
+        string HasLenght,
         string MinLenght,
         string MaxLenght,
         string ShouldBeBetweenLenght,
@@ -19,6 +20,7 @@ public class StringExtensionsTests
     {
         public override void Validate()
         {
+            ForMember(x => x.HasLenght).HasLenght(05);
             ForMember(x => x.MinLenght).HasMinLenght(10);
             ForMember(x => x.MaxLenght).HasMaxLenght(10);
             ForMember(x => x.ShouldBeBetweenLenght).ShouldBeBetweenLenght(10, 20);
@@ -30,6 +32,7 @@ public class StringExtensionsTests
     private static StringCommandStub MakeValidModel()
     {
         return new(
+            HasLenght: "Valid",
             MinLenght: "ValidMinLenght",
             MaxLenght: "ValidMax",
             ShouldBeBetweenLenght: "ValidBetweenMessage",
@@ -45,6 +48,15 @@ public class StringExtensionsTests
         stub.Validate();
 
         return stub.ResultData;
+    }
+
+    [Fact(DisplayName = "Should add an error when HasLenght is different than required")]
+    public void Should_add_an_error_when_HasLenght_is_different_than_required()
+    {
+        var model = MakeValidModel() with { HasLenght = "Invalid" };
+        var resultData = MakeAndValidateSut(model);
+
+        resultData.FieldErrors.Single().Key.Should().BeEquivalentTo(nameof(model.HasLenght));
     }
 
     [Fact(DisplayName = "Should add an error when MinLenght is minor than required")]
