@@ -119,4 +119,30 @@ public class ValidationTests
         sut.ResultData.FieldErrors.Should().BeEmpty();
         sut.HasErrors.Should().BeFalse();
     }
+
+    [Fact(DisplayName = "Should return the propertyValue when use GetCommandProperty")]
+    public void Should_return_the_propertyValue_when_use_GetValueForValue()
+    {
+        var sut = MakeSut();
+
+        var ruler = sut.ForMember(x => x.FirstName).WithMessage("");
+
+        ruler.Should().NotBeNull();
+
+        sut.ResultData.FieldErrors.Should().BeEmpty();
+        sut.HasErrors.Should().BeFalse();
+
+        var value = sut.GetCommand();
+
+        var firstName = sut.GetCommandProperty(x => x.FirstName);
+        var lastName = sut.GetCommandProperty(x => x.LastName);
+        var age = sut.GetCommandProperty(x => x.Age);
+        var address1 = sut.GetCommandProperty(x => x.Address1);
+        var address2 = sut.GetCommandProperty(x => x.Address2);
+
+        var value1 = (firstName, lastName, age, address1, address2);
+        var value2 = (value.FirstName, value.LastName, value.Age, value.Address1, value.Address2);
+
+        value1.Should().Be(value2);
+    }
 }
