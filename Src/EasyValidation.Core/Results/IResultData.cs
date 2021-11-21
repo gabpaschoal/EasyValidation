@@ -6,6 +6,7 @@ public interface IResultData : IDisposable
     IReadOnlyDictionary<string, IResultData> AssignFieldErrors { get; }
 
     bool IsValid { get; }
+    bool IsInvalid { get => !IsValid; }
 
     void AddFieldError(string key, string message);
 
