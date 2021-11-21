@@ -34,7 +34,7 @@ internal class Ruler<T, TProperty> : IRuler<T, TProperty>
 
     public IRuler<T, TProperty> When(Func<TProperty, bool> validation)
     {
-        if (_foundError)
+        if (_resultData.IsInvalid)
             return this;
 
         if (validation.Invoke(_valueProperty))

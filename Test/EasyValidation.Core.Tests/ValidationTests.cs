@@ -145,4 +145,36 @@ public class ValidationTests
 
         value1.Should().Be(value2);
     }
+
+    [Fact(DisplayName = "Should not call or add message if already has errors to the current ruler")]
+    public void Should_not_call_or_add_message_if_already_has_errors_to_the_current_ruler()
+    {
+#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
+        var sut = MakeSut(firstName: null);
+#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
+        sut.Validate();
+        sut.ResultData.FieldErrors.Single().Key.Should().Be("FirstName");
+        sut.ResultData.FieldErrors.Single().Value.Should().HaveCount(1);
+        sut.HasErrors.Should().BeTrue();
+    }
+
+    [Fact(DisplayName = "Should call the second validator")]
+    public void Should_call_the_second_validator()
+    {
+        var sut = MakeSut(firstName: "minor");
+        sut.Validate();
+        sut.ResultData.FieldErrors.Single().Key.Should().Be("FirstName");
+        sut.ResultData.FieldErrors.Single().Value.Single().Should().Be("Should have more than 10 digits");
+        sut.HasErrors.Should().BeTrue();
+    }
+
+    [Fact(DisplayName = "Should call the third validator")]
+    public void Should_call_the_third_validator()
+    {
+        var sut = MakeSut(firstName: "012345678901234567890123456789");
+        sut.Validate();
+        sut.ResultData.FieldErrors.Single().Key.Should().Be("FirstName");
+        sut.ResultData.FieldErrors.Single().Value.Single().Should().Be("Should have minus than 20 digits");
+        sut.HasErrors.Should().BeTrue();
+    }
 }

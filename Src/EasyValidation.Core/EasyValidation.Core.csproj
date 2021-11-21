@@ -8,7 +8,7 @@
     <NeutralLanguage>en-US</NeutralLanguage>
     <Version>1.0.0.5</Version>
     <PackageProjectUrl>https://github.com/gabpaschoal/EasyValidation/tree/main/Src/EasyValidation.Core</PackageProjectUrl>
-    <PackageReadmeFile>README.MD</PackageReadmeFile>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/gabpaschoal/EasyValidation/tree/main/Src/EasyValidation.Core</RepositoryUrl>
   </PropertyGroup>
 
