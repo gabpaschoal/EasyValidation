@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <NeutralLanguage>en-US</NeutralLanguage>
-    <Version>1.0.0.6</Version>
+    <Version>1.0.0.7</Version>
     <PackageProjectUrl>https://github.com/gabpaschoal/EasyValidation/tree/main/Src/EasyValidation.Core</PackageProjectUrl>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/gabpaschoal/EasyValidation/tree/main/Src/EasyValidation.Core</RepositoryUrl>
