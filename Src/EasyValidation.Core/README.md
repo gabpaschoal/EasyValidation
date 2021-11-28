@@ -122,6 +122,32 @@ public static class GuidExtensions
 }
 ```
 
+### Validator - Custom Validation by command values
+``` cs
+public record UserRegistrationCommand(string Email, string Password, string PasswordConfirmation);
+public class UserRegistrationValidator : Validation<UserRegistrationCommand>
+{
+    public override void Validate()
+    {
+        ForMember(x => x.Email)
+            .IsRequired()
+            .When(x => x.Length <= 3).WithMessage("Should has more than 3 chars");
+
+        ForMember(x => x.Password)
+            .IsRequired()
+            .When(x => x.Length <= 3).WithMessage("Should has more than 3 chars");
+
+        ForMember(x => x.PasswordConfirmation)
+            .When(x => x.Length <= 3).WithMessage("Should has more than 3 chars");
+
+        string password = GetCommandProperty(x => x.Password);
+        string passwordConfirmation = GetCommandProperty(x => x.PasswordConfirmation);
+
+        if(!password.Equals(passwordConfirmation))
+            AddError("passwordConfirmation", "Password confirmation is different from password");
+    }
+}
+```
 
 ### Author
 Made by Guilherme Paschoal (www.linkedin.com/in/guilherme-paschoal/)

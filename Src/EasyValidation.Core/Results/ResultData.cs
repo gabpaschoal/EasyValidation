@@ -78,7 +78,11 @@ public class ResultData : IResultData
 
 public class ResultData<TData> : ResultData, IResultData<TData> where TData : new()
 {
-    public TData Data { get; }
+    public TData? Data { get; }
+    public ResultData() : base()
+    {
+        Data = default;
+    }
     public ResultData(TData data) : base()
     {
         Data = data;

@@ -119,4 +119,62 @@ public class ValidationTests
         sut.ResultData.FieldErrors.Should().BeEmpty();
         sut.HasErrors.Should().BeFalse();
     }
+
+    [Fact(DisplayName = "Should return the propertyValue when use GetCommandProperty")]
+    public void Should_return_the_propertyValue_when_use_GetValueForValue()
+    {
+        var sut = MakeSut();
+
+        var ruler = sut.ForMember(x => x.FirstName).WithMessage("");
+
+        ruler.Should().NotBeNull();
+
+        sut.ResultData.FieldErrors.Should().BeEmpty();
+        sut.HasErrors.Should().BeFalse();
+
+        var value = sut.GetCommand();
+
+        var firstName = sut.GetCommandProperty(x => x.FirstName);
+        var lastName = sut.GetCommandProperty(x => x.LastName);
+        var age = sut.GetCommandProperty(x => x.Age);
+        var address1 = sut.GetCommandProperty(x => x.Address1);
+        var address2 = sut.GetCommandProperty(x => x.Address2);
+
+        var value1 = (firstName, lastName, age, address1, address2);
+        var value2 = (value.FirstName, value.LastName, value.Age, value.Address1, value.Address2);
+
+        value1.Should().Be(value2);
+    }
+
+    [Fact(DisplayName = "Should not call or add message if already has errors to the current ruler")]
+    public void Should_not_call_or_add_message_if_already_has_errors_to_the_current_ruler()
+    {
+#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
+        var sut = MakeSut(firstName: null);
+#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
+        sut.Validate();
+        sut.ResultData.FieldErrors.Single().Key.Should().Be("FirstName");
+        sut.ResultData.FieldErrors.Single().Value.Should().HaveCount(1);
+        sut.HasErrors.Should().BeTrue();
+    }
+
+    [Fact(DisplayName = "Should call the second validator")]
+    public void Should_call_the_second_validator()
+    {
+        var sut = MakeSut(firstName: "minor");
+        sut.Validate();
+        sut.ResultData.FieldErrors.Single().Key.Should().Be("FirstName");
+        sut.ResultData.FieldErrors.Single().Value.Single().Should().Be("Should have more than 10 digits");
+        sut.HasErrors.Should().BeTrue();
+    }
+
+    [Fact(DisplayName = "Should call the third validator")]
+    public void Should_call_the_third_validator()
+    {
+        var sut = MakeSut(firstName: "012345678901234567890123456789");
+        sut.Validate();
+        sut.ResultData.FieldErrors.Single().Key.Should().Be("FirstName");
+        sut.ResultData.FieldErrors.Single().Value.Single().Should().Be("Should have minus than 20 digits");
+        sut.HasErrors.Should().BeTrue();
+    }
 }

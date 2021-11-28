@@ -1,4 +1,5 @@
-﻿using EasyValidation.Core.Results;
+﻿using EasyValidation.Core.Exceptions;
+using EasyValidation.Core.Results;
 using System.Linq.Expressions;
 
 namespace EasyValidation.Core;
@@ -33,14 +34,32 @@ public abstract class Validation<T> : IValidation<T>
 
     public IRuler<T, TProperty> ForMember<TProperty>(Expression<Func<T, TProperty>> expression)
     {
+        if (_value is null)
+            throw new ValidationValueException();
+
         var ruler = new Ruler<T, TProperty>(_resultData, _value, expression);
 
         return ruler;
     }
 
+    public TProperty? GetCommandProperty<TProperty>(Expression<Func<T, TProperty>> expression)
+    {
+        if (_value is null)
+            throw new ValidationValueException();
+
+        var builtExpression = expression.Compile();
+        var value = builtExpression.Invoke(_value);
+        return value;
+    }
+
+    public T GetCommand() => _value ?? throw new ValidationValueException();
+
     public void AssignMember<TPartialCommandValidator, TProperty>(Expression<Func<T, TProperty>> expression, bool isRequired = true)
         where TPartialCommandValidator : IValidation<TProperty>, new()
     {
+        if (_value is null)
+            throw new ValidationValueException();
+
         var memberExpression = (MemberExpression)expression.Body;
         var propName = memberExpression.Member.Name;
 
@@ -66,5 +85,6 @@ public abstract class Validation<T> : IValidation<T>
     public void Dispose()
     {
         _resultData.Dispose();
+        GC.SuppressFinalize(this);
     }
 }

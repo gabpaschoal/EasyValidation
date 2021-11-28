@@ -6,7 +6,7 @@ public class PeopleStubValidation : Validation<PeopleStubCommand>
 {
     public override void Validate()
     {
-        ForMember(x => x.FirstName).IsRequired();
+        ForMember(x => x.FirstName).IsRequired().ShouldBeBetweenLenght(10, 20);
 
         ForMember(x => x.LastName).IsRequired();
 
