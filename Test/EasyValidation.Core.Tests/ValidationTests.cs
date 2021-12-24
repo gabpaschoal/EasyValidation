@@ -177,4 +177,18 @@ public class ValidationTests
         sut.ResultData.FieldErrors.Single().Value.Single().Should().Be("Should have minus than 20 digits");
         sut.HasErrors.Should().BeTrue();
     }
+
+    [Fact(DisplayName = "Should add a message error")]
+    public void Should_add_a_message_error()
+    {
+        var sut = MakeSut();
+        sut.Validate();
+        var message = "This is a valid message!";
+        sut.AddMessageError(message);
+
+        sut.ResultData.MessageErrors.Single().Should().Be(message);
+
+        sut.ResultData.IsValid.Should().BeFalse();
+        sut.HasErrors.Should().BeTrue();
+    }
 }

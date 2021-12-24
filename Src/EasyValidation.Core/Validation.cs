@@ -22,11 +22,15 @@ public abstract class Validation<T> : IValidation<T>
 
     public void SetValue(T value)
     {
-        _value = value ?? throw new ArgumentNullException(nameof(value));
+        ArgumentNullException.ThrowIfNull(value);
+        _value = value;
     }
 
     public abstract void Validate();
-
+    public void AddMessageError(string message)
+    {
+        _resultData.AddMessageError(message);
+    }
     public void AddError(string property, string message)
     {
         _resultData.AddFieldError(key: property, message);

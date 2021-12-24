@@ -8,6 +8,7 @@ public interface IValidation<T> : IDisposable
     IResultData ResultData { get; }
     bool HasErrors { get; }
 
+    void AddMessageError(string message);
     void AddError(string property, string message);
     TProperty? GetCommandProperty<TProperty>(Expression<Func<T, TProperty>> expression);
     void SetValue(T value);

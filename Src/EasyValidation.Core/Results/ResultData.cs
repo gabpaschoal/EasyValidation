@@ -6,17 +6,30 @@ public class ResultData : IResultData
 {
     public ResultData()
     {
+        _messageErrors = new List<string>();
         _errors = new Dictionary<string, IList<string>>();
         _assigns = new Dictionary<string, IResultData>();
     }
 
+    private readonly ICollection<string> _messageErrors;
     private readonly IDictionary<string, IList<string>> _errors;
     private readonly IDictionary<string, IResultData> _assigns;
 
+    public IEnumerable<string> MessageErrors => _messageErrors;
     public IReadOnlyDictionary<string, IList<string>> FieldErrors => new ReadOnlyDictionary<string, IList<string>>(_errors);
     public IReadOnlyDictionary<string, IResultData> AssignFieldErrors => new ReadOnlyDictionary<string, IResultData>(_assigns);
 
-    public bool IsValid => !_errors.Any() && !_assigns.Any();
+    public bool IsValid => !_messageErrors.Any() && !_errors.Any() && !_assigns.Any();
+    public void AddMessageError(string message)
+    {
+        if (string.IsNullOrWhiteSpace(message))
+            return;
+
+        if (_messageErrors.Contains(message))
+            return;
+
+        _messageErrors.Add(message);
+    }
 
     public void AddFieldError(string key, string message)
     {
@@ -59,6 +72,7 @@ public class ResultData : IResultData
 
     public void ClearErrors()
     {
+        _messageErrors.Clear();
         _errors.Clear();
         _assigns.Clear();
     }
