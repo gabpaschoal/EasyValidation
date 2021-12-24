@@ -2,11 +2,14 @@
 
 public interface IResultData : IDisposable
 {
+    IEnumerable<string> MessageErrors { get; }
     IReadOnlyDictionary<string, IList<string>> FieldErrors { get; }
     IReadOnlyDictionary<string, IResultData> AssignFieldErrors { get; }
 
     bool IsValid { get; }
     bool IsInvalid { get => !IsValid; }
+
+    void AddMessageError(string message);
 
     void AddFieldError(string key, string message);
 

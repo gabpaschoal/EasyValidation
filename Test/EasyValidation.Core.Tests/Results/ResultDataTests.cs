@@ -99,11 +99,89 @@ public class ResultDataTests
         resultData.IsValid.Should().BeFalse();
     }
 
+    [Fact(DisplayName = "Should not add a message error when message is empty")]
+    public void Should_not_add_a_message_error_when_message_is_empty()
+    {
+        var resultData = new ResultData();
+
+        var message = "";
+        resultData.AddMessageError(message);
+
+        resultData.MessageErrors.Should().BeEmpty();
+        resultData.FieldErrors.Should().BeEmpty();
+        resultData.AssignFieldErrors.Should().BeEmpty();
+
+        resultData.IsValid.Should().BeTrue();
+    }
+
+    [Fact(DisplayName = "Should not add a message error when message is null")]
+    public void Should_not_add_a_message_error_when_message_is_null()
+    {
+        var resultData = new ResultData();
+
+        string message = null;
+        resultData.AddMessageError(message);
+
+        resultData.MessageErrors.Should().BeEmpty();
+        resultData.FieldErrors.Should().BeEmpty();
+        resultData.AssignFieldErrors.Should().BeEmpty();
+
+        resultData.IsValid.Should().BeTrue();
+    }
+
+    [Fact(DisplayName = "Should not add a message error when message is white space")]
+    public void Should_not_add_a_message_error_when_message_is_white_space()
+    {
+        var resultData = new ResultData();
+
+        var message = "                                ";
+        resultData.AddMessageError(message);
+
+        resultData.MessageErrors.Should().BeEmpty();
+        resultData.FieldErrors.Should().BeEmpty();
+        resultData.AssignFieldErrors.Should().BeEmpty();
+
+        resultData.IsValid.Should().BeTrue();
+    }
+
+    [Fact(DisplayName = "Should not be valid when contains any message error")]
+    public void Should_not_be_valid_when_contains_any_message_error()
+    {
+        var resultData = new ResultData();
+
+        var message = "This is a valid message!";
+        resultData.AddMessageError(message);
+
+        resultData.MessageErrors.Single().Should().Be(message);
+        resultData.FieldErrors.Should().BeEmpty();
+        resultData.AssignFieldErrors.Should().BeEmpty();
+
+        resultData.IsValid.Should().BeFalse();
+    }
+
+    [Fact(DisplayName = "Should not add another message if already exists")]
+    public void Should_not_add_another_message_if_already_exists()
+    {
+        var resultData = new ResultData();
+
+        var message = "This is a valid message!";
+        resultData.AddMessageError(message);
+        resultData.AddMessageError(message);
+
+        resultData.MessageErrors.Single().Should().Be(message);
+        resultData.FieldErrors.Should().BeEmpty();
+        resultData.AssignFieldErrors.Should().BeEmpty();
+
+        resultData.IsValid.Should().BeFalse();
+    }
+
     [Fact(DisplayName = "Should be valid when dont contains any error")]
     public void Should_be_valid_when_dont_contains_any_error()
     {
         var resultData = new ResultData();
+        resultData.MessageErrors.Should().BeEmpty();
         resultData.FieldErrors.Should().BeEmpty();
+        resultData.AssignFieldErrors.Should().BeEmpty();
         resultData.IsValid.Should().BeTrue();
     }
 }
